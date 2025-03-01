@@ -1,29 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box, Button, TextField, Typography, Container, useTheme } from '@mui/material';
+import { AppContext } from '../../Context/AppContext';
 import { useNavigate } from 'react-router-dom';
 import { loginUser } from '../../shared/api';
 
 const Login = () => {
   const theme = useTheme();
+	const { dispatch } = useContext(AppContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+	const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
+	useEffect(() => {
+		const handleKeyDoqn = (e) => {
+			if (e.key === 'Enter' && !isSubmitting) {
+				e.preventDefault();
+				handleSubmit();
+			}
+		};
+		window.addEventListener('keydown', handleKeyDoqn);
+		return () => window.removeEventListener('keydown', handleKeyDoqn);
+	}, []);
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setError(null);
-
+    setIsSubmitting(true);
     try {
-      const data = { username, password };
-      const loginResponse = await loginUser(data);
-
-      if (loginResponse) {
-        navigate('/');
-      }
+      await loginUser({ username, password }, dispatch);
+      navigate('/');
     } catch (err) {
       setError('Invalid username or password. Please try again.');
       console.error(err);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

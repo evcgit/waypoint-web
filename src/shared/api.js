@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getTokens, setTokens, clearTokens } from './../utils/helpers';
+import { ACTION_TYPES } from '../Context/AppContext';
 
 class ApiError extends Error {
 	// TODO: Implement Sentry error and exception handling for ApiErrors
@@ -193,13 +194,39 @@ export const makeApiRequest = async (
 	}
 };
 
-export const loginUser = async (data) => {
-	const loginResponse = await makeApiRequest('POST', '/auth/token/', data);
-	setTokens(loginResponse.access, loginResponse.refresh);
-	return loginResponse;
+export const loginUser = async (data, dispatch) => {
+  const loginResponse = await makeApiRequest('POST', '/auth/token/', data);
+  setTokens(loginResponse.access, loginResponse.refresh);
+  dispatch({
+    type: ACTION_TYPES.LOGGED_IN,
+    payload: {
+      accessToken: loginResponse.access,
+      refreshToken: loginResponse.refresh
+    }
+  });
+
+  if (loginResponse) {
+    const userData = await makeApiRequest('GET', '/user/me');
+    dispatch({
+      type: ACTION_TYPES.UPDATE_USER,
+      payload: userData
+    });
+  }
 };
 
-export const logoutUser = async () => {
-	await makeApiRequest('POST', '/auth/logout/');
+export const logoutUser = async (dispatch) => {
+	await makeApiRequest('POST', 'api/auth/logout/');
+	dispatch({
+		type: ACTION_TYPES.LOGGED_OUT
+	});
 	clearTokens();
+	window.location.href = '/login';
+};
+
+export const getCurrentUser = async dispatch => {
+  const responseData = await makeApiRequest('GET', '/user/me');
+  dispatch({
+    type: ACTION_TYPES.UPDATE_USER,
+    payload: responseData
+  });
 };

@@ -6,6 +6,9 @@ import { theme } from './shared/theme/theme';
 import Navbar from './components/Navigation/Navbar';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Login from './routes/Home/Login';
+import Explore from './routes/Dashboard/Explore';
+import Trips from './routes/Dashboard/Trips';
+import Favorites from './routes/Dashboard/Favorites';
 
 const App = () => {
   return (
@@ -18,6 +21,9 @@ const App = () => {
             <Routes>
               <Route path="/" element={<h1>Welcome to Waypoint</h1>} />
               <Route path="/login" element={<Login />} />
+              <Route path="/explore" element={<Explore />} />
+							<Route path="/trips" element={<Trips />} />
+							<Route path="/favorites" element={<Favorites />} />
             </Routes>
           </Container>
         </Box>

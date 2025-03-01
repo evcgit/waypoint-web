@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   AppBar,
   Box,
@@ -19,21 +19,20 @@ import {
   FlightTakeoffOutlined,
   FavoriteBorderOutlined,
   AccountCircleOutlined,
+  SettingsOutlined,
+  LogoutOutlined,
 } from '@mui/icons-material';
-
-const pages = [
-  { name: 'Explore', icon: <ExploreOutlined /> },
-  { name: 'Trips', icon: <FlightTakeoffOutlined /> },
-  { name: 'Favorites', icon: <FavoriteBorderOutlined /> },
-];
-
-const settings = ['My Profile', 'Account Settings', 'Dashboard', 'Logout'];
+import { useNavigate } from 'react-router-dom';
+import { AppContext } from '../../Context/AppContext';
+import { logoutUser } from '../../shared/api';
 
 const Navbar = () => {
   const theme = useTheme();
+  const { dispatch } = useContext(AppContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-
+	const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const navigate = useNavigate();
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -48,6 +47,17 @@ const Navbar = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+	const pages = [
+		{ name: 'Explore', icon: <ExploreOutlined />, path: '/explore' },
+		{ name: 'Trips', icon: <FlightTakeoffOutlined />, path: '/trips' },
+		{ name: 'Favorites', icon: <FavoriteBorderOutlined />, path: '/favorites' },
+	];
+	
+	const settings = [
+		{ name: 'Settings', icon: <SettingsOutlined />, function: () => setSettingsModalOpen(true) },
+		{ name: 'Logout', icon: <LogoutOutlined />, function: () => logoutUser(dispatch) },
+	];
 
   return (
     <AppBar position="sticky">
@@ -64,6 +74,7 @@ const Navbar = () => {
               color: theme.palette.primary.main,
               textDecoration: 'none',
             }}
+            onClick={() => navigate('/')}
           >
             WAYPOINT
           </Typography>
@@ -99,7 +110,7 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                <MenuItem key={page.name} onClick={() => navigate(page.path)}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     {page.icon}
                     <Typography textAlign="center">{page.name}</Typography>
@@ -130,7 +141,7 @@ const Navbar = () => {
             {pages.map((page) => (
               <Button
                 key={page.name}
-                onClick={handleCloseNavMenu}
+                onClick={() => navigate(page.path)}
                 sx={{
                   color: theme.palette.text.primary,
                   display: 'flex',
@@ -158,7 +169,7 @@ const Navbar = () => {
               </IconButton>
             </Tooltip>
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: '45px', display: 'flex', justifyContent: 'space-between' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
@@ -174,8 +185,11 @@ const Navbar = () => {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
+                <MenuItem key={setting.name} onClick={setting.function}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    {setting.icon}
+                    <Typography textAlign="center">{setting.name}</Typography>
+                  </Box>
                 </MenuItem>
               ))}
             </Menu>
