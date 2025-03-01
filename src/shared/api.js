@@ -14,15 +14,30 @@ class ApiError extends Error {
 const apiClient = axios.create({
 	baseURL: import.meta.env.VITE_API_URL,
 	headers: {
-		Authorization: getTokens().accessToken
-			? `Bearer ${getTokens().accessToken}`
-			: '',
 		Accept: 'application/json',
 		'Content-Type': 'application/json'
 	},
 	xsrfHeaderName: 'X-CSRFTOKEN',
-	xsrfCookieName: 'csrftoken'
+	xsrfCookieName: 'csrftoken',
+	withCredentials: true
 });
+
+// Update the authorization header dynamically
+apiClient.interceptors.request.use((config) => {
+	const { accessToken } = getTokens();
+	if (accessToken) {
+		config.headers.Authorization = `Bearer ${accessToken}`;
+	}
+	return config;
+});
+
+export const initializeCsrf = async () => {
+	try {
+		await apiClient.get('/csrf/', { withCredentials: true });
+	} catch (error) {
+		console.error('Failed to initialize CSRF token:', error);
+	}
+};
 
 const forceLogout = () => {
 	localStorage.removeItem('accessToken');
@@ -161,17 +176,13 @@ export const makeApiRequest = async (
 	body = null,
 	queryParams = {}
 ) => {
+	await initializeCsrf();
 	await handleTokenValidity();
-
-	const { accessToken } = getTokens();
 
 	try {
 		const response = await apiClient.request({
 			url,
 			method,
-			headers: {
-				Authorization: accessToken ? `Bearer ${accessToken}` : '',
-			},
 			params: queryParams,
 			data: (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method) && body) ? body : undefined,
 		});
