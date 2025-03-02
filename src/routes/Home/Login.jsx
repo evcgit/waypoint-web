@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -33,11 +33,11 @@ const Login = () => {
   const [page, setPage] = useState('login');
   const navigate = useNavigate();
 
-  const handleSubmit = async (newUser = false) => {
+  const handleSubmit = async () => {
     setError(null);
     setIsSubmitting(true);
     try {
-      if (newUser) {
+      if (page === 'register') {
         // TODO: register user and validations handling
         console.warn('new user');
       }
@@ -50,6 +50,17 @@ const Login = () => {
       setIsSubmitting(false);
     }
   };
+
+  useEffect(() => {
+    const handleKeyPress = event => {
+      if (event.key === 'Enter' && !isSubmitting) {
+        event.preventDefault();
+        handleSubmit();
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [isSubmitting, handleSubmit]);
 
   return (
     <>
@@ -150,7 +161,10 @@ const Login = () => {
               color="primary"
               disabled={isSubmitting}
               sx={{ mt: 2 }}
-              onClick={handleSubmit}
+              onClick={e => {
+                e.preventDefault();
+                handleSubmit();
+              }}
             >
               Login
             </Button>
@@ -268,7 +282,7 @@ const Login = () => {
               color="primary"
               disabled={isSubmitting}
               sx={{ mt: 2 }}
-              onClick={() => handleSubmit(true)}
+              onClick={handleSubmit}
             >
               Register
             </Button>

@@ -14,7 +14,6 @@ import {
   useTheme
 } from '@mui/material';
 import {
-  Menu as MenuIcon,
   ExploreOutlined,
   FlightTakeoffOutlined,
   FavoriteBorderOutlined,
@@ -29,21 +28,13 @@ import { logoutUser } from '../../shared/api';
 const Navbar = () => {
   const theme = useTheme();
   const { state, dispatch } = useContext(AppContext);
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const [selectedPage, setSelectedPage] = useState(null);
   const navigate = useNavigate();
-  const handleOpenNavMenu = event => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
@@ -85,44 +76,37 @@ const Navbar = () => {
           </Typography>
 
           {/* Mobile Menu */}
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size="large"
-              aria-label="menu"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleOpenNavMenu}
-              color="inherit"
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left'
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' }
-              }}
-            >
-              {pages.map(page => (
-                <MenuItem key={page.name} onClick={() => navigate(page.path)}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {page.icon}
-                    <Typography textAlign="center">{page.name}</Typography>
-                  </Box>
-                </MenuItem>
-              ))}
-            </Menu>
+          <Box
+            sx={{
+              flexGrow: 1,
+              display: { xs: 'flex', md: 'none' },
+              justifyContent: 'space-around',
+              position: 'fixed',
+              py: 2,
+              bottom: 0,
+              left: 0,
+              right: 0,
+              bgcolor: theme.palette.background.default,
+              boxShadow: 2
+            }}
+          >
+            {pages.map(page => (
+              <IconButton
+                key={page.name}
+                onClick={() => {
+                  navigate(page.path);
+                  setSelectedPage(page.name);
+                }}
+                sx={{
+                  color:
+                    selectedPage === page.name
+                      ? theme.palette.primary.main
+                      : theme.palette.text.primary
+                }}
+              >
+                {page.icon}
+              </IconButton>
+            ))}
           </Box>
 
           {/* Logo - Mobile */}
@@ -137,6 +121,7 @@ const Navbar = () => {
               color: theme.palette.primary.main,
               textDecoration: 'none'
             }}
+            onClick={() => navigate('/')}
           >
             WAYPOINT
           </Typography>
@@ -146,9 +131,15 @@ const Navbar = () => {
             {pages.map(page => (
               <Button
                 key={page.name}
-                onClick={() => navigate(page.path)}
+                onClick={() => {
+                  navigate(page.path);
+                  setSelectedPage(page.name);
+                }}
                 sx={{
-                  color: theme.palette.text.primary,
+                  color:
+                    selectedPage === page.name
+                      ? theme.palette.primary.main
+                      : theme.palette.text.primary,
                   display: 'flex',
                   alignItems: 'center',
                   gap: 1,
