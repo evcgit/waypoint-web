@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import {
   AppBar,
   Box,
@@ -11,7 +11,7 @@ import {
   Button,
   Tooltip,
   MenuItem,
-  useTheme,
+  useTheme
 } from '@mui/material';
 import {
   Menu as MenuIcon,
@@ -20,7 +20,7 @@ import {
   FavoriteBorderOutlined,
   AccountCircleOutlined,
   SettingsOutlined,
-  LogoutOutlined,
+  LogoutOutlined
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../Context/AppContext';
@@ -28,15 +28,15 @@ import { logoutUser } from '../../shared/api';
 
 const Navbar = () => {
   const theme = useTheme();
-  const { dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
-	const [settingsModalOpen, setSettingsModalOpen] = useState(false);
+  const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const navigate = useNavigate();
-  const handleOpenNavMenu = (event) => {
+  const handleOpenNavMenu = event => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
+  const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
 
@@ -48,16 +48,20 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-	const pages = [
-		{ name: 'Explore', icon: <ExploreOutlined />, path: '/explore' },
-		{ name: 'Trips', icon: <FlightTakeoffOutlined />, path: '/trips' },
-		{ name: 'Favorites', icon: <FavoriteBorderOutlined />, path: '/favorites' },
-	];
-	
-	const settings = [
-		{ name: 'Settings', icon: <SettingsOutlined />, function: () => setSettingsModalOpen(true) },
-		{ name: 'Logout', icon: <LogoutOutlined />, function: () => logoutUser(dispatch) },
-	];
+  const pages = [
+    { name: 'Explore', icon: <ExploreOutlined />, path: '/explore' },
+    { name: 'Trips', icon: <FlightTakeoffOutlined />, path: '/trips' },
+    { name: 'Favorites', icon: <FavoriteBorderOutlined />, path: '/favorites' }
+  ];
+
+  const settings = [
+    {
+      name: 'Settings',
+      icon: <SettingsOutlined />,
+      function: () => setSettingsModalOpen(true)
+    },
+    { name: 'Logout', icon: <LogoutOutlined />, function: () => logoutUser(dispatch) }
+  ];
 
   return (
     <AppBar position="sticky">
@@ -73,6 +77,7 @@ const Navbar = () => {
               fontWeight: 700,
               color: theme.palette.primary.main,
               textDecoration: 'none',
+              cursor: 'pointer'
             }}
             onClick={() => navigate('/')}
           >
@@ -96,20 +101,20 @@ const Navbar = () => {
               anchorEl={anchorElNav}
               anchorOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left',
+                horizontal: 'left'
               }}
               keepMounted
               transformOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: 'left'
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: 'block', md: 'none' }
               }}
             >
-              {pages.map((page) => (
+              {pages.map(page => (
                 <MenuItem key={page.name} onClick={() => navigate(page.path)}>
                   <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                     {page.icon}
@@ -130,7 +135,7 @@ const Navbar = () => {
               flexGrow: 1,
               fontWeight: 700,
               color: theme.palette.primary.main,
-              textDecoration: 'none',
+              textDecoration: 'none'
             }}
           >
             WAYPOINT
@@ -138,7 +143,7 @@ const Navbar = () => {
 
           {/* Desktop Menu */}
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, gap: 2 }}>
-            {pages.map((page) => (
+            {pages.map(page => (
               <Button
                 key={page.name}
                 onClick={() => navigate(page.path)}
@@ -149,8 +154,8 @@ const Navbar = () => {
                   gap: 1,
                   '&:hover': {
                     color: theme.palette.primary.main,
-                    backgroundColor: theme.palette.background.subtle,
-                  },
+                    backgroundColor: theme.palette.background.subtle
+                  }
                 }}
               >
                 {page.icon}
@@ -160,44 +165,50 @@ const Navbar = () => {
           </Box>
 
           {/* User Menu */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                  <AccountCircleOutlined />
-                </Avatar>
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: '45px', display: 'flex', justifyContent: 'space-between' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting.name} onClick={setting.function}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    {setting.icon}
-                    <Typography textAlign="center">{setting.name}</Typography>
-                  </Box>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+          {state.user ? (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                    <AccountCircleOutlined />
+                  </Avatar>
+                </IconButton>
+              </Tooltip>
+              <Menu
+                sx={{ mt: '45px', display: 'flex', justifyContent: 'space-between' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right'
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map(setting => (
+                  <MenuItem key={setting.name} onClick={setting.function}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                      {setting.icon}
+                      <Typography textAlign="center">{setting.name}</Typography>
+                    </Box>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          ) : (
+            <Box sx={{ flexGrow: 0 }}>
+              <Button onClick={() => navigate('/login')}>Login</Button>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
   );
 };
 
-export default Navbar; 
+export default Navbar;

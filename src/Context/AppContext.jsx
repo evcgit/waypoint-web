@@ -1,21 +1,12 @@
-import React, { createContext, useReducer, useEffect } from 'react';
-import { getCurrentUser } from '../shared/api.js';
+import { createContext, useReducer, useEffect } from 'react';
+import { getCurrentUser } from '../shared/api';
+import { ACTION_TYPES } from '../utils/const';
 
 const AppContext = createContext(null);
 
 const initialState = {
-	user: null,
-	isAuthenticated: false,
-};
-
-export const ACTION_TYPES = {
-	INITIALIZING: 'INITIALIZING',
-	INIT_COMPLETE: 'INIT_COMPLETE',
-	LOGGING_IN: 'LOGGING_IN',
-	LOGIN_ERROR: 'LOGIN_ERROR',
-	LOGGED_IN: 'LOGGED_IN',
-	LOGGED_OUT: 'LOGGED_OUT',
-	UPDATE_USER: 'UPDATE_USER',
+  user: null,
+  isAuthenticated: false
 };
 
 const reducer = (state, action) => {
@@ -64,31 +55,31 @@ const reducer = (state, action) => {
         siteAlerts: [],
         user: {}
       };
-		case ACTION_TYPES.UPDATE_USER:
-			const userObject = action.payload
-			return {
-				...state,
-				user: {
-					id: userObject.id || state.user.id || null,
-					email: userObject.email,
-					firstName: userObject.first_name,
-					lastName: userObject.last_name,
-					phoneNumber: userObject.phone_number,
-					role: userObject.role,
-				},
-			};
-		default:
-			return state;
-	}
+    case ACTION_TYPES.UPDATE_USER:
+      const userObject = action.payload;
+      return {
+        ...state,
+        user: {
+          id: userObject.id || state.user.id || null,
+          email: userObject.email,
+          firstName: userObject.first_name,
+          lastName: userObject.last_name,
+          phoneNumber: userObject.phone_number,
+          role: userObject.role
+        }
+      };
+    default:
+      return state;
+  }
 };
 
 const AppProvider = ({ children }) => {
-	const [state, dispatch] = useReducer(reducer, initialState);
-	const value = { state, dispatch };
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const value = { state, dispatch };
 
-	useEffect(() => {
-		if (state.accessToken) {
-			dispatch({
+  useEffect(() => {
+    if (state.accessToken) {
+      dispatch({
         type: ACTION_TYPES.INITIALIZING
       });
       getCurrentUser(dispatch)
@@ -114,8 +105,7 @@ const AppProvider = ({ children }) => {
     }
   }, []);
 
-
-	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
 
 export { AppContext, AppProvider };
