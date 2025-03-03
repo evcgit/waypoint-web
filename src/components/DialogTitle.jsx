@@ -1,5 +1,5 @@
 import { Box, DialogTitle, IconButton, SvgIcon } from '@mui/material';
-import CloseIcon from '../../shared/assets/delete-no-bg.svg';
+import { CloseOutlined } from '@mui/icons-material';
 
 const StyledDialogTitle = ({
   children,
@@ -29,7 +29,7 @@ const StyledDialogTitle = ({
           edge="end"
           sx={{ color: theme => theme.palette.text.secondary }}
         >
-          <SvgIcon component={CloseIcon} fontSize="large" />
+          <CloseOutlined />
         </IconButton>
       )}
     </DialogTitle>

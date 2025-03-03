@@ -61,11 +61,13 @@ const reducer = (state, action) => {
         ...state,
         user: {
           id: userObject.id || state.user.id || null,
-          email: userObject.email,
-          firstName: userObject.first_name,
-          lastName: userObject.last_name,
-          phoneNumber: userObject.phone_number,
-          role: userObject.role
+          email: userObject.user.email,
+          firstName: userObject.user.first_name,
+          lastName: userObject.user.last_name,
+          username: userObject.user.username,
+          role: userObject.role,
+          passportExpiry: userObject.passport_expiry,
+          nationality: userObject.nationality
         }
       };
     default:

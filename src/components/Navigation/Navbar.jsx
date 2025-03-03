@@ -18,12 +18,11 @@ import {
   FlightTakeoffOutlined,
   FavoriteBorderOutlined,
   AccountCircleOutlined,
-  SettingsOutlined,
-  LogoutOutlined
+  SettingsOutlined
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import { AppContext } from '../../Context/AppContext';
-import { logoutUser } from '../../shared/api';
+import SettingsModal from '../../shared/components/Modals/SettingsModal';
 
 const Navbar = () => {
   const theme = useTheme();
@@ -32,6 +31,20 @@ const Navbar = () => {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [selectedPage, setSelectedPage] = useState(null);
   const navigate = useNavigate();
+
+  const pages = [
+    { name: 'Explore', icon: <ExploreOutlined />, path: '/explore' },
+    { name: 'Trips', icon: <FlightTakeoffOutlined />, path: '/trips' },
+    { name: 'Favorites', icon: <FavoriteBorderOutlined />, path: '/favorites' },
+    {
+      name: 'Profile',
+      icon: <AccountCircleOutlined />,
+      path: '#',
+      mobileOnly: true,
+      onClick: event => handleOpenUserMenu(event)
+    }
+  ];
+
   const handleOpenUserMenu = event => {
     setAnchorElUser(event.currentTarget);
   };
@@ -39,20 +52,14 @@ const Navbar = () => {
     setAnchorElUser(null);
   };
 
-  const pages = [
-    { name: 'Explore', icon: <ExploreOutlined />, path: '/explore' },
-    { name: 'Trips', icon: <FlightTakeoffOutlined />, path: '/trips' },
-    { name: 'Favorites', icon: <FavoriteBorderOutlined />, path: '/favorites' }
-  ];
+  const handleSettingsModalOpen = () => {
+    setSettingsModalOpen(true);
+    handleCloseUserMenu();
+  };
 
-  const settings = [
-    {
-      name: 'Settings',
-      icon: <SettingsOutlined />,
-      function: () => setSettingsModalOpen(true)
-    },
-    { name: 'Logout', icon: <LogoutOutlined />, function: () => logoutUser(dispatch) }
-  ];
+  const handleSettingsModalClose = () => {
+    setSettingsModalOpen(false);
+  };
 
   return (
     <AppBar position="sticky">
@@ -82,7 +89,8 @@ const Navbar = () => {
               display: { xs: 'flex', md: 'none' },
               justifyContent: 'space-around',
               position: 'fixed',
-              py: 2,
+              pb: 1,
+              pt: 1,
               bottom: 0,
               left: 0,
               right: 0,
@@ -91,21 +99,35 @@ const Navbar = () => {
             }}
           >
             {pages.map(page => (
-              <IconButton
+              <Box
                 key={page.name}
-                onClick={() => {
-                  navigate(page.path);
-                  setSelectedPage(page.name);
-                }}
                 sx={{
-                  color:
+                  display: page.mobileOnly ? { xs: 'block', md: 'none' } : 'block',
+                  borderBottom:
                     selectedPage === page.name
-                      ? theme.palette.primary.main
-                      : theme.palette.text.primary
+                      ? `2px solid ${theme.palette.primary.main}`
+                      : 'none'
                 }}
               >
-                {page.icon}
-              </IconButton>
+                <IconButton
+                  onClick={event => {
+                    if (page.onClick) {
+                      page.onClick(event);
+                    } else {
+                      navigate(page.path);
+                      setSelectedPage(page.name);
+                    }
+                  }}
+                  sx={{
+                    color:
+                      selectedPage === page.name
+                        ? theme.palette.primary.main
+                        : theme.palette.text.primary
+                  }}
+                >
+                  {page.icon}
+                </IconButton>
+              </Box>
             ))}
           </Box>
 
@@ -155,48 +177,25 @@ const Navbar = () => {
             ))}
           </Box>
 
-          {/* User Menu */}
+          {/* User Menu - Desktop Only */}
           {state.user ? (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
-                    <AccountCircleOutlined />
-                  </Avatar>
-                </IconButton>
-              </Tooltip>
-              <Menu
-                sx={{ mt: '45px', display: 'flex', justifyContent: 'space-between' }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right'
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right'
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map(setting => (
-                  <MenuItem key={setting.name} onClick={setting.function}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                      {setting.icon}
-                      <Typography textAlign="center">{setting.name}</Typography>
-                    </Box>
-                  </MenuItem>
-                ))}
-              </Menu>
+            <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
+              <IconButton onClick={handleSettingsModalOpen} sx={{ p: 0 }}>
+                <Avatar sx={{ bgcolor: theme.palette.primary.main }}>
+                  <AccountCircleOutlined />
+                </Avatar>
+              </IconButton>
             </Box>
           ) : (
-            <Box sx={{ flexGrow: 0 }}>
+            <Box sx={{ flexGrow: 0, display: { xs: 'none', md: 'flex' } }}>
               <Button onClick={() => navigate('/login')}>Login</Button>
             </Box>
           )}
         </Toolbar>
+        <SettingsModal
+          open={settingsModalOpen}
+          onClose={() => setSettingsModalOpen(false)}
+        />
       </Container>
     </AppBar>
   );

@@ -212,7 +212,7 @@ export const loginUser = async (data, dispatch) => {
   });
 
   if (loginResponse) {
-    const userData = await makeApiRequest('GET', '/user/me');
+    const userData = await makeApiRequest('GET', '/user/me/');
     dispatch({
       type: ACTION_TYPES.UPDATE_USER,
       payload: userData
