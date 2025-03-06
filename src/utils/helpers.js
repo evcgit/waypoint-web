@@ -14,4 +14,13 @@ export const setTokens = (accessToken, refreshToken = '') => {
 export const clearTokens = () => {
   localStorage.removeItem('accessToken');
   localStorage.removeItem('refreshToken');
+  localStorage.removeItem('themePreference');
+};
+
+export const getThemePreference = () => {
+  return localStorage.getItem('themePreference') || '3';
+};
+
+export const setThemePreference = (preference) => {
+  localStorage.setItem('themePreference', preference);
 };

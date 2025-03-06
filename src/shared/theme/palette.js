@@ -51,5 +51,19 @@ export const palette = {
   common: {
     black: '#000000',
     white: '#FFFFFF'
+  },
+  // Dark mode overrides
+  dark: {
+    background: {
+      default: '#1A202C',
+      paper: '#2D3748',
+      subtle: '#4A5568'
+    },
+    text: {
+      primary: '#F7FAFC',
+      secondary: '#E2E8F0',
+      disabled: '#A0AEC0'
+    },
+    divider: 'rgba(255, 255, 255, 0.12)'
   }
 };
