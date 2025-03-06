@@ -5,12 +5,9 @@ import {
 	Toolbar,
 	IconButton,
 	Typography,
-	Menu,
 	Container,
 	Avatar,
 	Button,
-	Tooltip,
-	MenuItem,
 	useTheme
 } from '@mui/material';
 import {
@@ -27,7 +24,6 @@ import SettingsModal from '../../shared/components/Modals/SettingsModal';
 const Navbar = () => {
 	const theme = useTheme();
 	const { state, dispatch } = useContext(AppContext);
-	const [anchorElUser, setAnchorElUser] = useState(null);
 	const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 	const [selectedPage, setSelectedPage] = useState(null);
 	const navigate = useNavigate();
@@ -41,24 +37,12 @@ const Navbar = () => {
 			icon: <AccountCircleOutlined />,
 			path: '#',
 			mobileOnly: true,
-			onClick: event => handleOpenUserMenu(event)
+			onClick: event => handleSettingsModalOpen(event)
 		}
 	];
 
-	const handleOpenUserMenu = event => {
-		setAnchorElUser(event.currentTarget);
-	};
-	const handleCloseUserMenu = () => {
-		setAnchorElUser(null);
-	};
-
 	const handleSettingsModalOpen = () => {
 		setSettingsModalOpen(true);
-		handleCloseUserMenu();
-	};
-
-	const handleSettingsModalClose = () => {
-		setSettingsModalOpen(false);
 	};
 
 	return (
