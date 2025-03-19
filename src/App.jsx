@@ -11,6 +11,7 @@ import Favorites from './routes/Dashboard/Favorites';
 import { useContext, useMemo, useEffect } from 'react';
 import { AppContext } from './Context/AppContext';
 import { createTheme } from '@mui/material/styles';
+import SingleTripView from './routes/Dashboard/Trips/SingleTripView';
 
 const App = () => {
 	const { state, dispatch } = useContext(AppContext);
@@ -63,6 +64,7 @@ const App = () => {
 											<Route path="/" element={<h1>Welcome to Waypoint</h1>} />
 											<Route path="/explore" element={<Explore />} />
 											<Route path="/trips" element={<Trips />} />
+											<Route path="/trips/:tripId" element={<SingleTripView />} />
 											<Route path="/favorites" element={<Favorites />} />
 										</Routes>
 									</Container>

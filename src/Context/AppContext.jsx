@@ -1,14 +1,15 @@
 import { createContext, useReducer, useEffect } from 'react';
 import { getCurrentUser } from '../shared/api';
 import { ACTION_TYPES } from '../utils/const';
-import { getThemePreference } from '../utils/helpers';
+import { getThemePreference, getTokens } from '../utils/helpers';
 
 const AppContext = createContext(null);
 
 const initialState = {
 	user: null,
 	isAuthenticated: false,
-	theme: getThemePreference()
+	theme: getThemePreference(),
+	...getTokens()
 };
 
 const reducer = (state, action) => {
@@ -61,12 +62,13 @@ const reducer = (state, action) => {
 			const userObject = action.payload;
 			return {
 				...state,
+
 				user: {
 					id: userObject.id || state.user.id || null,
-					email: userObject.user.email,
-					firstName: userObject.user.first_name,
-					lastName: userObject.user.last_name,
-					username: userObject.user.username,
+					email: userObject.email,
+					firstName: userObject.first_name,
+					lastName: userObject.last_name,
+					username: userObject.username,
 					role: userObject.role,
 					passportExpiry: userObject.passport_expiry,
 					nationality: userObject.nationality
@@ -87,7 +89,8 @@ const AppProvider = ({ children }) => {
 	const value = { state, dispatch };
 
 	useEffect(() => {
-		if (state.accessToken) {
+		const { accessToken, refreshToken } = getTokens();
+		if (accessToken) {
 			dispatch({
 				type: ACTION_TYPES.INITIALIZING
 			});
@@ -96,8 +99,8 @@ const AppProvider = ({ children }) => {
 					dispatch({
 						type: ACTION_TYPES.LOGGED_IN,
 						payload: {
-							accessToken: state.accessToken,
-							refreshToken: state.refreshToken
+							accessToken,
+							refreshToken
 						}
 					});
 				})

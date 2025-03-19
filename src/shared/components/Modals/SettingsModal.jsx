@@ -1,17 +1,17 @@
 import { useContext, useState, useEffect } from 'react';
 import Modal from '../../../components/Modal';
+import BasicSelect from '../../../components/Select';
 import {
 	Box,
 	Typography,
-	Select,
-	MenuItem,
 	TextField,
 	Stack,
 	Button,
 	Divider
 } from '@mui/material';
 import { AccountCircleOutlined, LogoutOutlined } from '@mui/icons-material';
-import { logoutUser } from '../../../shared/api';
+import { useSnackbar } from 'notistack';
+import { logoutUser, getCurrentUser, makeApiRequest } from '../../../shared/api';
 import { AppContext } from '../../../Context/AppContext';
 import { getThemePreference, setThemePreference } from '../../../utils/helpers';
 
@@ -19,19 +19,32 @@ const SettingsModal = ({ open, onClose }) => {
 	const { dispatch, state } = useContext(AppContext);
 	const [formData, setFormData] = useState();
 	const [themeMode, setThemeMode] = useState(getThemePreference());
+	const { enqueueSnackbar } = useSnackbar();
 
-	const initialState = {
-		firstName: state?.user?.firstName || '',
-		lastName: state?.user?.lastName || '',
-		email: state?.user?.email || '',
-		username: state?.user?.username || '',
-		passportExpiry: state?.user?.passportExpiry || '',
-		nationality: state?.user?.nationality || ''
-	};
+	const themeOptions = [
+		{ value: '1', label: 'Always Light' },
+		{ value: '2', label: 'Always Dark' },
+		{ value: '3', label: 'System Default' }
+	];
 
 	useEffect(() => {
-		setFormData(initialState);
-	}, [state]);
+		if (open) {
+			getCurrentUser(dispatch);
+		}
+	}, [open, dispatch]);
+
+	useEffect(() => {
+		if (state?.user) {
+			setFormData({
+				firstName: state.user.firstName || '',
+				lastName: state.user.lastName || '',
+				email: state.user.email || '',
+				username: state.user.username || '',
+				passportExpiry: state.user.passportExpiry || '',
+				nationality: state.user.nationality || ''
+			});
+		}
+	}, [state?.user]);
 
 	const handleLogout = () => {
 		logoutUser(dispatch);
@@ -47,6 +60,27 @@ const SettingsModal = ({ open, onClose }) => {
 		}
 	};
 
+	const handleSubmit = async () => {
+		console.log(formData);
+		const data = {
+			first_name: formData.firstName,
+			last_name: formData.lastName,
+			email: formData.email,
+			username: formData.username,
+			passport_expiry: formData.passportExpiry,
+			nationality: formData.nationality
+		};
+		try {
+			const response = await makeApiRequest('PUT', `users/${state.user.id}/`, data);
+			console.log(response);
+			enqueueSnackbar('Settings updated successfully', { variant: 'success' });
+			onClose();
+		} catch (error) {
+			console.error(error);
+			enqueueSnackbar('Failed to update settings', { variant: 'error' });
+		}
+	};
+
 	const SubmitButton = () => {
 		return (
 			<Stack direction="row" spacing={2}>
@@ -54,7 +88,7 @@ const SettingsModal = ({ open, onClose }) => {
 					<LogoutOutlined />
 					Logout
 				</Button>
-				<Button variant="outlined" color="primary" onClick={handleLogout}>
+				<Button variant="outlined" color="primary" onClick={handleSubmit}>
 					Submit
 				</Button>
 			</Stack>
@@ -75,7 +109,7 @@ const SettingsModal = ({ open, onClose }) => {
 			>
 				<Stack direction="column" alignItems="center" spacing={2}>
 					<AccountCircleOutlined sx={{ fontSize: '64px', mb: '16px' }} />
-					<Box sx={{ display: 'flex', alignItems: 'center', gap: 1, width: '80%' }}>
+					<Box sx={{ display: 'flex', alignItems: 'center', gap: 2, width: '80%' }}>
 						<TextField
 							label="First Name"
 							value={formData?.firstName}
@@ -108,7 +142,7 @@ const SettingsModal = ({ open, onClose }) => {
 							flexDirection: 'column',
 							alignItems: 'center',
 							justifyContent: 'center',
-							gap: 1,
+							gap: 2,
 							flex: 1
 						}}
 					>
@@ -129,15 +163,12 @@ const SettingsModal = ({ open, onClose }) => {
 					<Divider orientation="vertical" flexItem />
 					<Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', flex: 1 }}>
 						<Typography variant="caption">Preferences</Typography>
-						<Select
+						<BasicSelect
+							options={themeOptions}
 							value={themeMode}
 							onChange={handleThemeChange}
 							sx={{ width: '70%' }}
-						>
-							<MenuItem value="1">Always Light</MenuItem>
-							<MenuItem value="2">Always Dark</MenuItem>
-							<MenuItem value="3">System Default</MenuItem>
-						</Select>
+						/>
 					</Box>
 				</Box>
 			</Box>

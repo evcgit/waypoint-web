@@ -200,6 +200,14 @@ export const makeApiRequest = async (method, url, body = null, queryParams = {})
   }
 };
 
+export const getCurrentUser = async dispatch => {
+	const responseData = await makeApiRequest('GET', 'users/me/');
+	dispatch({
+		type: ACTION_TYPES.UPDATE_USER,
+		payload: responseData
+	});
+};
+
 export const loginUser = async (data, dispatch) => {
   const loginResponse = await makeApiRequest('POST', '/auth/token/', data);
   setTokens(loginResponse.access, loginResponse.refresh);
@@ -212,16 +220,12 @@ export const loginUser = async (data, dispatch) => {
   });
 
   if (loginResponse) {
-    const userData = await makeApiRequest('GET', '/user/me/');
-    dispatch({
-      type: ACTION_TYPES.UPDATE_USER,
-      payload: userData
-    });
+		getCurrentUser(dispatch);
   }
 };
 
 export const logoutUser = async dispatch => {
-  await makeApiRequest('POST', '/auth/logout/');
+  await makeApiRequest('POST', '/users/logout/');
   dispatch({
     type: ACTION_TYPES.LOGGED_OUT
   });
@@ -230,10 +234,3 @@ export const logoutUser = async dispatch => {
   window.location.href = '/login';
 };
 
-export const getCurrentUser = async dispatch => {
-  const responseData = await makeApiRequest('GET', '/user/me');
-  dispatch({
-    type: ACTION_TYPES.UPDATE_USER,
-    payload: responseData
-  });
-};
