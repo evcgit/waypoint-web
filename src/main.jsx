@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AppProvider } from './Context/AppContext';
+import { TripProvider } from './Context/TripContext';
 import App from './App.jsx';
 
 const rootElement = document.getElementById('root');
@@ -14,7 +15,9 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <AppProvider>
-      <App />
+			<TripProvider>
+				<App />
+			</TripProvider>
     </AppProvider>
   </StrictMode>
 );

@@ -14,6 +14,7 @@ import {
 	CircularProgress,
 	Alert,
 	Button,
+	Stack,
 } from '@mui/material';
 import {
 	AccessTime,
@@ -23,8 +24,11 @@ import {
 	DirectionsCar,
 	Event,
 	ArrowBack,
+	Edit,
 } from '@mui/icons-material';
 import { makeApiRequest } from '../../../shared/api';
+import { useTrip } from '../../../Context/TripContext';
+import BasicSelect from '../../../components/Select';
 
 const TabPanel = ({ children, value, index }) => (
 	<div hidden={value !== index} role="tabpanel">
@@ -33,17 +37,28 @@ const TabPanel = ({ children, value, index }) => (
 );
 
 const SingleTripView = () => {
-	const { tripId } = useParams();
+	const { selectedTrip } = useTrip();
 	const navigate = useNavigate();
 	const [trip, setTrip] = useState(null);
-	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
+	const [loading, setLoading] = useState(true);
 	const [activeTab, setActiveTab] = useState(0);
+	const [editing, setEditing] = useState(false);
+	const [modifiedTrip, setModifiedTrip] = useState(null);
+	const [isEditingStatus, setIsEditingStatus] = useState(false);
+
+	const TRIP_STATUS = [
+		{ value: 'PLANNING', label: 'Planning', color: 'warning' },
+		{ value: 'IN_PROGRESS', label: 'In Progress', color: 'success' },
+		{ value: 'COMPLETED', label: 'Completed', color: 'success' },
+		{ value: 'CANCELLED', label: 'Cancelled', color: 'error' },
+	];
 
 	useEffect(() => {
 		const fetchTrip = async () => {
+			if (!selectedTrip) return;
 			try {
-				const response = await makeApiRequest(`trips/${tripId}/`, 'GET');
+				const response = await makeApiRequest('GET', `/trips/${selectedTrip}/`);
 				setTrip(response);
 				setError(null);
 			} catch (err) {
@@ -54,14 +69,27 @@ const SingleTripView = () => {
 		};
 
 		fetchTrip();
-	}, [tripId]);
+	}, [selectedTrip]);
 
 	const handleTabChange = (event, newValue) => {
 		setActiveTab(newValue);
 	};
 
 	const handleBack = () => {
-		navigate('/dashboard/trips');
+		navigate('/trips');
+	};
+
+	const handleEdit = () => {
+		navigate(`/trips/${selectedTrip}/edit`);
+	};
+
+	const getStatusDetails = (statusValue) => {
+		return TRIP_STATUS.find((status) => status.value === statusValue) || TRIP_STATUS[0];
+	};
+
+	const handleStatusChange = (e) => {
+		setTrip({ ...trip, status: e.target.value });
+		setIsEditingStatus(false);
 	};
 
 	if (loading) {
@@ -100,13 +128,23 @@ const SingleTripView = () => {
 
 	const TripHeader = () => (
 		<Paper elevation={0} sx={{ p: 3, mb: 3, bgcolor: 'primary.light' }}>
-			<Box display="flex" alignItems="center" gap={2} mb={2}>
-				<IconButton onClick={handleBack}>
-					<ArrowBack />
+			<Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
+				<Stack direction="row" alignItems="center" gap={2}>
+					<IconButton onClick={handleBack}>
+						<ArrowBack />
+					</IconButton>
+					{editing ? (
+						<TextField
+							value={trip.title}
+							onChange={(e) => setModifiedTrip({ ...trip, title: e.target.value })}
+						/>
+					) : (
+						<Typography variant="h4">{trip.title}</Typography>
+					)}
+				</Stack>
+				<IconButton>
+					<Edit sx={{ fontSize: '1.2rem' }} />
 				</IconButton>
-				<Typography variant="h4">
-					{trip.title}
-				</Typography>
 			</Box>
 
 			<Grid container spacing={2} sx={{ mt: 2 }}>
@@ -128,10 +166,29 @@ const SingleTripView = () => {
 					</Box>
 				</Grid>
 				<Grid item xs={12} sm={6} md={3}>
-					<Chip
-						label={trip.status}
-						color={trip.status === 'PLANNING' ? 'warning' : 'success'}
-					/>
+					{isEditingStatus ? (
+						<BasicSelect
+							options={TRIP_STATUS}
+							value={trip.status}
+							onChange={handleStatusChange}
+							autoFocus
+							onBlur={() => setIsEditingStatus(false)}
+							overrideSx={{
+								minWidth: '120px',
+								height: '32px',
+								'& .MuiSelect-select': {
+									padding: '4px 14px',
+								}
+							}}
+						/>
+					) : (
+						<Chip
+							label={getStatusDetails(trip.status).label}
+							color={getStatusDetails(trip.status).color}
+							onClick={() => setIsEditingStatus(true)}
+							sx={{ cursor: 'pointer' }}
+						/>
+					)}
 				</Grid>
 				{trip.visa_required && (
 					<Grid item xs={12} sm={6} md={3}>

@@ -20,9 +20,11 @@ import {
 	Add as AddIcon,
 } from '@mui/icons-material';
 import { makeApiRequest } from '../../../shared/api';
+import { useTrip } from '../../../Context/TripContext';
 
 const Trips = () => {
 	const navigate = useNavigate();
+	const { setSelectedTrip } = useTrip();
 	const [trips, setTrips] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
@@ -32,7 +34,6 @@ const Trips = () => {
 			try {
 				const response = await makeApiRequest('GET', 'trips/');
 				setTrips(response);
-				console.log(response);
 				setError(null);
 			} catch (err) {
 				setError('Failed to load trips. Please try again later.');
@@ -44,7 +45,6 @@ const Trips = () => {
 		fetchTrips();
 	}, []);
 
-	// Group trips by year
 	const tripsByYear = useMemo(() => {
 		const grouped = {};
 		trips?.forEach((trip) => {
@@ -64,20 +64,20 @@ const Trips = () => {
 			}));
 	}, [trips]);
 
-	const handleTripClick = (tripId) => {
-		navigate(`/dashboard/trips/${tripId}`);
+	const handleTripClick = (trip) => {
+		setSelectedTrip(trip.id);
+		navigate(`/trips/details/`);
 	};
 
 	const handleCreateTrip = () => {
-		navigate('/dashboard/trips/create');
+		navigate('/trips/create');
 	};
 
 	const TripCard = ({ trip }) => (
 		<Card
-			onClick={() => handleTripClick(trip.id)}
+			onClick={() => handleTripClick(trip)}
 			sx={{
-				minWidth: 300,
-				maxWidth: 300,
+				width: 300,
 				p: 2,
 				cursor: 'pointer',
 				'&:hover': {
@@ -197,6 +197,7 @@ const Trips = () => {
 									gap: 2,
 									overflowX: 'auto',
 									pb: 2,
+									px: 2,
 									'::-webkit-scrollbar': {
 										height: 8,
 									},
