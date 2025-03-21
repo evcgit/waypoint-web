@@ -14,68 +14,71 @@ import { createTheme } from '@mui/material/styles';
 import SingleTripView from './routes/Dashboard/Trips/SingleTripView';
 
 const App = () => {
-	const { state, dispatch } = useContext(AppContext);
+  const { state, dispatch } = useContext(AppContext);
 
-	const theme = useMemo(() => {
-		const mode = state?.theme === '2' ? 'dark' : state?.theme === '1' ? 'light' : 'system';
-		const isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+  const theme = useMemo(() => {
+    const mode =
+      state?.theme === '2' ? 'dark' : state?.theme === '1' ? 'light' : 'system';
+    const isDark =
+      mode === 'dark' ||
+      (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
-		return createTheme({
-			...baseTheme,
-			palette: {
-				...baseTheme.palette,
-				mode: isDark ? 'dark' : 'light',
-				...(isDark && {
-					background: baseTheme.palette.dark.background,
-					text: baseTheme.palette.dark.text,
-					divider: baseTheme.palette.dark.divider
-				})
-			}
-		});
-	}, [state?.theme]);
+    return createTheme({
+      ...baseTheme,
+      palette: {
+        ...baseTheme.palette,
+        mode: isDark ? 'dark' : 'light',
+        ...(isDark && {
+          background: baseTheme.palette.dark.background,
+          text: baseTheme.palette.dark.text,
+          divider: baseTheme.palette.dark.divider
+        })
+      }
+    });
+  }, [state?.theme]);
 
-	useEffect(() => {
-		if (state?.theme === '3') {
-			const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-			const handleChange = () => {
-				// Force theme recalculation
-				dispatch({ type: 'SET_THEME', payload: '3' });
-			};
+  useEffect(() => {
+    if (state?.theme === '3') {
+      const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+      const handleChange = () => {
+        // Force theme recalculation
+        dispatch({ type: 'SET_THEME', payload: '3' });
+      };
 
-			mediaQuery.addEventListener('change', handleChange);
-			return () => mediaQuery.removeEventListener('change', handleChange);
-		}
-	}, [state?.theme]);
+      mediaQuery.addEventListener('change', handleChange);
+      return () => mediaQuery.removeEventListener('change', handleChange);
+    }
+  }, [state?.theme]);
 
-	return (
-		<ThemeProvider theme={theme}>
-			<CssBaseline />
-			<Router>
-				<Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-					<Routes>
-						<Route path="/login" element={<Login />} />
-						<Route
-							path="*"
-							element={
-								<>
-									<Navbar />
-									<Container component="main" sx={{ flexGrow: 1, py: 3 }}>
-										<Routes>
-											<Route path="/" element={<h1>Welcome to Waypoint</h1>} />
-											<Route path="/explore" element={<Explore />} />
-											<Route path="/trips" element={<Trips />} />
-											<Route path="/trips/details" element={<SingleTripView />} />
-											<Route path="/favorites" element={<Favorites />} />
-										</Routes>
-									</Container>
-								</>
-							}
-						/>
-					</Routes>
-				</Box>
-			</Router>
-		</ThemeProvider>
-	);
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Router>
+        <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="*"
+              element={
+                <>
+                  <Navbar />
+                  <Container component="main" sx={{ flexGrow: 1, py: 3 }}>
+                    <Routes>
+                      <Route path="/" element={<h1>Welcome to Waypoint</h1>} />
+                      <Route path="/explore" element={<Explore />} />
+                      <Route path="/trips" element={<Trips />} />
+                      <Route path="/trips/details" element={<SingleTripView />} />
+                      <Route path="/favorites" element={<Favorites />} />
+                    </Routes>
+                  </Container>
+                </>
+              }
+            />
+          </Routes>
+        </Box>
+      </Router>
+    </ThemeProvider>
+  );
 };
 
 export default App;

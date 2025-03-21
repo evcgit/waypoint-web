@@ -21,6 +21,6 @@ export const getThemePreference = () => {
   return localStorage.getItem('themePreference') || '3';
 };
 
-export const setThemePreference = (preference) => {
+export const setThemePreference = preference => {
   localStorage.setItem('themePreference', preference);
 };

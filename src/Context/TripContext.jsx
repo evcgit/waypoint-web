@@ -1,9 +1,10 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useState, useContext, useEffect } from 'react';
 
 const TripContext = createContext();
 
 export const TripProvider = ({ children }) => {
-	const [selectedTrip, setSelectedTrip] = useState(() => {
+  const [selectedTrip, setSelectedTrip] = useState(() => {
     const savedTrip = localStorage.getItem('selectedTrip');
     return savedTrip ? JSON.parse(savedTrip) : null;
   });

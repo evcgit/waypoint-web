@@ -201,11 +201,11 @@ export const makeApiRequest = async (method, url, body = null, queryParams = {})
 };
 
 export const getCurrentUser = async dispatch => {
-	const responseData = await makeApiRequest('GET', 'users/me/');
-	dispatch({
-		type: ACTION_TYPES.UPDATE_USER,
-		payload: responseData
-	});
+  const responseData = await makeApiRequest('GET', 'users/me/');
+  dispatch({
+    type: ACTION_TYPES.UPDATE_USER,
+    payload: responseData
+  });
 };
 
 export const loginUser = async (data, dispatch) => {
@@ -220,7 +220,7 @@ export const loginUser = async (data, dispatch) => {
   });
 
   if (loginResponse) {
-		getCurrentUser(dispatch);
+    getCurrentUser(dispatch);
   }
 };
 
@@ -233,4 +233,3 @@ export const logoutUser = async dispatch => {
   csrfInitialized = false;
   window.location.href = '/login';
 };
-

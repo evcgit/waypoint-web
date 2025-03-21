@@ -15,9 +15,9 @@ if (!rootElement) {
 createRoot(rootElement).render(
   <StrictMode>
     <AppProvider>
-			<TripProvider>
-				<App />
-			</TripProvider>
+      <TripProvider>
+        <App />
+      </TripProvider>
     </AppProvider>
   </StrictMode>
 );

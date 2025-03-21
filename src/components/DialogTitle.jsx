@@ -1,4 +1,4 @@
-import { Box, DialogTitle, IconButton, SvgIcon } from '@mui/material';
+import { Box, DialogTitle, IconButton } from '@mui/material';
 import { CloseOutlined } from '@mui/icons-material';
 
 const StyledDialogTitle = ({
