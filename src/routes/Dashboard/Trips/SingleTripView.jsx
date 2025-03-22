@@ -30,6 +30,10 @@ import {
 import { makeApiRequest } from '../../../shared/api';
 import { useTrip } from '../../../Context/TripContext';
 import BasicSelect from '../../../components/Select';
+import DestinationsPanel from './Destinations';
+import AccommodationsPanel from './Accommodations';
+import ActivitiesPanel from './Activities';
+import TransportPanel from './Transport';
 
 const TabPanel = ({ children, value, index }) => (
   <div hidden={value !== index} role="tabpanel">
@@ -60,6 +64,7 @@ const SingleTripView = () => {
       if (!selectedTrip) return;
       try {
         const response = await makeApiRequest('GET', `/trips/${selectedTrip}/`);
+				console.log(response);
         setTrip(response);
         setModifiedTrip(response);
         setError(null);
@@ -129,7 +134,7 @@ const SingleTripView = () => {
   }
 
   const TripHeader = () => (
-    <Paper elevation={0} sx={{ p: 3, mb: 3 }}>
+    <Paper elevation={0} sx={{ px: 3, pt: 3, pb: 1, mb: 3 }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" mb={2}>
         <Stack direction="row" alignItems="center" gap={2}>
           <IconButton onClick={handleBack}>
@@ -157,31 +162,6 @@ const SingleTripView = () => {
           ) : (
             <Typography variant="h4">{modifiedTrip?.title}</Typography>
           )}
-        </Stack>
-        <IconButton onClick={() => setEditing(!editing)}>
-          <Edit sx={{ fontSize: '1.2rem' }} />
-        </IconButton>
-      </Box>
-
-      <Grid container spacing={2} sx={{ mt: 2 }}>
-        <Grid item xs={12} sm={6} md={3}>
-          <Box display="flex" alignItems="center" gap={1}>
-            <AccessTime />
-            <Typography>
-              {format(new Date(trip.start_date), 'MMM d')} -{' '}
-              {format(new Date(trip.end_date), 'MMM d, yyyy')}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
-          <Box display="flex" alignItems="center" gap={1}>
-            <AttachMoney />
-            <Typography>
-              Budget: {trip.currency} {trip.budget}
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid item xs={12} sm={6} md={3}>
           {isEditingStatus ? (
             <BasicSelect
               options={TRIP_STATUS}
@@ -202,113 +182,27 @@ const SingleTripView = () => {
               label={getStatusDetails(trip.status).label}
               color={getStatusDetails(trip.status).color}
               onClick={() => setIsEditingStatus(true)}
-              sx={{ cursor: 'pointer' }}
+              sx={{ cursor: 'pointer', p: 0 }}
             />
           )}
-        </Grid>
-        {trip.visa_required && (
-          <Grid item xs={12} sm={6} md={3}>
-            <Box display="flex" alignItems="center" gap={1}>
-              <Typography>Visa Required</Typography>
-            </Box>
-          </Grid>
-        )}
-      </Grid>
+					{trip.visa_required && (
+						<Chip label='Visa Required' color='error' />
+					)}
+        </Stack>
+				<Stack direction="row" alignItems="center" gap={2}>
+          <Box display="flex" alignItems="center" gap={1}>
+            <AccessTime />
+            <Typography>
+              {format(new Date(trip.start_date), 'MMM d')} -{' '}
+              {format(new Date(trip.end_date), 'MMM d, yyyy')}
+            </Typography>
+          </Box>
+        <IconButton onClick={() => setEditing(!editing)}>
+          <Edit sx={{ fontSize: '1.2rem' }} />
+        </IconButton>
+				</Stack>
+      </Box>
     </Paper>
-  );
-
-  const DestinationsPanel = () => (
-    <Grid container spacing={3}>
-      {trip.all_destinations?.map(destination => (
-        <Grid item xs={12} md={6} key={destination.id}>
-          <Card sx={{ p: 2 }}>
-            <Box display="flex" alignItems="center" gap={1} mb={2}>
-              <LocationOn />
-              <Typography variant="h6">
-                {destination.city}, {destination.country}
-              </Typography>
-            </Box>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              {format(new Date(destination.arrival_date), 'MMM d')} -{' '}
-              {format(new Date(destination.departure_date), 'MMM d, yyyy')}
-            </Typography>
-            {destination.notes && (
-              <Typography variant="body2">{destination.notes}</Typography>
-            )}
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
-  );
-
-  const AccommodationsPanel = () => (
-    <Grid container spacing={3}>
-      {trip.all_accommodations?.map(accommodation => (
-        <Grid item xs={12} md={6} key={accommodation.id}>
-          <Card sx={{ p: 2 }}>
-            <Box display="flex" alignItems="center" gap={1} mb={2}>
-              <Hotel />
-              <Typography variant="h6">{accommodation.name}</Typography>
-            </Box>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              {format(new Date(accommodation.checkin_date), 'MMM d, HH:mm')} -{' '}
-              {format(new Date(accommodation.checkout_date), 'MMM d, HH:mm')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Cost: {trip.currency} {accommodation.cost}
-            </Typography>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
-  );
-
-  const ActivitiesPanel = () => (
-    <Grid container spacing={3}>
-      {trip.all_activities?.map(activity => (
-        <Grid item xs={12} md={6} key={activity.id}>
-          <Card sx={{ p: 2 }}>
-            <Box display="flex" alignItems="center" gap={1} mb={2}>
-              <Event />
-              <Typography variant="h6">{activity.name}</Typography>
-            </Box>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              {format(new Date(activity.start_time), 'MMM d, HH:mm')} -{' '}
-              {format(new Date(activity.end_time), 'HH:mm')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Cost: {trip.currency} {activity.cost}
-            </Typography>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
-  );
-
-  const TransportPanel = () => (
-    <Grid container spacing={3}>
-      {trip.all_transport?.map(transport => (
-        <Grid item xs={12} key={transport.id}>
-          <Card sx={{ p: 2 }}>
-            <Box display="flex" alignItems="center" gap={1} mb={2}>
-              <DirectionsCar />
-              <Typography variant="h6">{transport.name}</Typography>
-            </Box>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              {format(new Date(transport.start_time), 'MMM d, HH:mm')} -{' '}
-              {format(new Date(transport.end_time), 'MMM d, HH:mm')}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              From: {transport.from_destination.city} → To:{' '}
-              {transport.to_destination.city}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Cost: {trip.currency} {transport.cost}
-            </Typography>
-          </Card>
-        </Grid>
-      ))}
-    </Grid>
   );
 
   return (
@@ -323,16 +217,16 @@ const SingleTripView = () => {
       </Tabs>
 
       <TabPanel value={activeTab} index={0}>
-        <DestinationsPanel />
+        <DestinationsPanel destinations={trip.destinations} />
       </TabPanel>
       <TabPanel value={activeTab} index={1}>
-        <AccommodationsPanel />
+        <AccommodationsPanel accommodations={trip.accommodations} currency={trip.currency} />
       </TabPanel>
       <TabPanel value={activeTab} index={2}>
-        <ActivitiesPanel />
+        <ActivitiesPanel activities={trip.activities} currency={trip.currency} />
       </TabPanel>
       <TabPanel value={activeTab} index={3}>
-        <TransportPanel />
+        <TransportPanel transports={trip.transports} currency={trip.currency} />
       </TabPanel>
     </Box>
   );
