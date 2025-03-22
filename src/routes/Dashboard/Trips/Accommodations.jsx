@@ -8,11 +8,10 @@ const AccommodationsPanel = ({ accommodations, currency }) => {
   const [open, setOpen] = useState(false);
   const [selectedAccommodation, setSelectedAccommodation] = useState(null);
 
-	const handleAccommodationClick = accommodation => {
-		setSelectedAccommodation(accommodation);
-		setOpen(true);
-	}
-
+  const handleAccommodationClick = accommodation => {
+    setSelectedAccommodation(accommodation);
+    setOpen(true);
+  };
 
   return (
     <>

@@ -15,11 +15,7 @@ import {
   Stack,
   TextField
 } from '@mui/material';
-import {
-  AccessTime,
-  ArrowBack,
-  Edit
-} from '@mui/icons-material';
+import { AccessTime, ArrowBack, Edit } from '@mui/icons-material';
 import { makeApiRequest } from '../../../shared/api';
 import { useTrip } from '../../../Context/TripContext';
 import BasicSelect from '../../../components/Select';

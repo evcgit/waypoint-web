@@ -18,6 +18,7 @@ Things to do:
 - ability to add/remove travelers from a trip
 - ability to change user role for a trip
 - create accounts page
+- implement notifications(passport expiry, upcoming trips etc.)
 
 
 

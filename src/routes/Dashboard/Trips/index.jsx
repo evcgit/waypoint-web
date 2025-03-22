@@ -9,7 +9,10 @@ import {
   IconButton,
   Button,
   CircularProgress,
-  Alert
+  Alert,
+  Checkbox,
+  Menu,
+  MenuItem
 } from '@mui/material';
 import { format } from 'date-fns';
 import {
@@ -17,7 +20,8 @@ import {
   AttachMoney,
   ChevronRight,
   LocationOn,
-  Add as AddIcon
+  Add as AddIcon,
+  FilterList
 } from '@mui/icons-material';
 import { makeApiRequest } from '../../../shared/api';
 import { useTrip } from '../../../Context/TripContext';
@@ -28,6 +32,8 @@ const Trips = () => {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [filterAnchor, setFilterAnchor] = useState(null);
+  const [selectedFilters, setSelectedFilters] = useState(['All']);
 
   useEffect(() => {
     const fetchTrips = async () => {
@@ -69,6 +75,27 @@ const Trips = () => {
 
   const handleCreateTrip = () => {
     navigate('/trips/create');
+  };
+
+  const handleFilterClick = event => {
+    setFilterAnchor(event.currentTarget);
+  };
+
+  const handleFilterClose = () => {
+    setFilterAnchor(null);
+  };
+
+  const handleFilterChange = filter => {
+    setSelectedFilters(prev => {
+      if (filter === 'All') {
+        return ['All'];
+      }
+      const newFilters = prev.filter(f => f !== 'All');
+      if (prev.includes(filter)) {
+        return newFilters.filter(f => f !== filter);
+      }
+      return [...newFilters, filter];
+    });
   };
 
   const TripCard = ({ trip }) => (
@@ -138,9 +165,51 @@ const Trips = () => {
     <Box sx={{ p: 3 }}>
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={4}>
         <Typography variant="h4">My Trips</Typography>
-        <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreateTrip}>
-          Create Trip
-        </Button>
+        <Stack direction="row" spacing={2}>
+          <IconButton onClick={handleFilterClick}>
+            <FilterList />
+          </IconButton>
+          <Menu
+            anchorEl={filterAnchor}
+            open={Boolean(filterAnchor)}
+            onClose={handleFilterClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right'
+            }}
+          >
+            {['All', 'Owned', 'Planning', 'In progress', 'Completed', 'Cancelled'].map(
+              filter => (
+                <MenuItem
+                  key={filter}
+                  onClick={() => handleFilterChange(filter)}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    minWidth: 200,
+                    '&:hover': {
+                      backgroundColor: 'action.hover'
+                    },
+                    py: 0.5
+                  }}
+                >
+                  <Checkbox
+                    checked={selectedFilters.includes(filter)}
+                    onClick={e => e.stopPropagation()}
+                  />
+                  <Typography>{filter}</Typography>
+                </MenuItem>
+              )
+            )}
+          </Menu>
+          <Button variant="contained" startIcon={<AddIcon />} onClick={handleCreateTrip}>
+            Create Trip
+          </Button>
+        </Stack>
       </Box>
 
       {error && (

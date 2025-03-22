@@ -1,9 +1,17 @@
 import { useContext, useState, useEffect } from 'react';
 import Modal from '../../../components/Modal';
 import BasicSelect from '../../../components/Select';
-import { Box, Typography, TextField, Stack, Button, Divider } from '@mui/material';
+import {
+  Box,
+  Typography,
+  TextField,
+  Stack,
+  Button,
+  Divider,
+  Select,
+  MenuItem
+} from '@mui/material';
 import { AccountCircleOutlined, LogoutOutlined } from '@mui/icons-material';
-import { useSnackbar } from 'notistack';
 import { logoutUser, getCurrentUser, makeApiRequest } from '../../../shared/api';
 import { AppContext } from '../../../Context/AppContext';
 import { getThemePreference, setThemePreference } from '../../../utils/helpers';
@@ -12,7 +20,7 @@ const SettingsModal = ({ open, onClose }) => {
   const { dispatch, state } = useContext(AppContext);
   const [formData, setFormData] = useState();
   const [themeMode, setThemeMode] = useState(getThemePreference());
-  const { enqueueSnackbar } = useSnackbar();
+  const [countries, setCountries] = useState([]);
 
   const themeOptions = [
     { value: '1', label: 'Always Light' },
@@ -20,21 +28,34 @@ const SettingsModal = ({ open, onClose }) => {
     { value: '3', label: 'System Default' }
   ];
 
+  const fetchCountries = async () => {
+    try {
+      const response = await makeApiRequest('GET', 'countries/');
+      setCountries(response);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
     if (open) {
       getCurrentUser(dispatch);
+      fetchCountries();
     }
   }, [open, dispatch]);
 
   useEffect(() => {
     if (state?.user) {
+      const nationality = countries.find(
+        country => country.id === state.user.nationality
+      );
       setFormData({
         firstName: state.user.firstName || '',
         lastName: state.user.lastName || '',
         email: state.user.email || '',
         username: state.user.username || '',
         passportExpiry: state.user.passportExpiry || '',
-        nationality: state.user.nationality || ''
+        nationality: nationality || ''
       });
     }
   }, [state?.user]);
@@ -64,11 +85,9 @@ const SettingsModal = ({ open, onClose }) => {
     };
     try {
       await makeApiRequest('PUT', `users/${state.user.id}/`, data);
-      enqueueSnackbar('Settings updated successfully', { variant: 'success' });
       onClose();
     } catch (error) {
       console.error(error);
-      enqueueSnackbar('Failed to update settings', { variant: 'error' });
     }
   };
 
@@ -145,19 +164,36 @@ const SettingsModal = ({ open, onClose }) => {
               flex: 1
             }}
           >
-            <Typography variant="caption">Personal Details</Typography>
+            <Typography variant="caption">Passport Details</Typography>
             <TextField
               sx={{ width: '70%' }}
-              label="Passport Expiry"
+              label="Expiry Date"
               value={formData?.passportExpiry}
               onChange={e => setFormData({ ...formData, passportExpiry: e.target.value })}
+              placeholder="MM/DD/YYYY"
             />
-            <TextField
+            <Select
               sx={{ width: '70%' }}
-              label="Nationality"
-              value={formData?.nationality}
-              onChange={e => setFormData({ ...formData, nationality: e.target.value })}
-            />
+              value={formData?.nationality?.id || ''}
+              renderValue={selected => {
+                const selectedCountry = countries.find(
+                  country => country.id === selected
+                );
+                return selectedCountry?.alpha2 || '';
+              }}
+              onChange={e => {
+                const selectedCountry = countries.find(
+                  country => country.id === e.target.value
+                );
+                setFormData({ ...formData, nationality: selectedCountry });
+              }}
+            >
+              {countries.map(country => (
+                <MenuItem key={country.id} value={country.id}>
+                  {country.name}
+                </MenuItem>
+              ))}
+            </Select>
           </Box>
           <Divider orientation="vertical" flexItem />
           <Box
