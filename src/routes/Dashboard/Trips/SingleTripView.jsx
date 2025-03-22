@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import {
-  Card,
-  Grid,
   Typography,
   Tabs,
   Tab,
@@ -19,11 +17,6 @@ import {
 } from '@mui/material';
 import {
   AccessTime,
-  AttachMoney,
-  LocationOn,
-  Hotel,
-  DirectionsCar,
-  Event,
   ArrowBack,
   Edit
 } from '@mui/icons-material';
@@ -64,7 +57,7 @@ const SingleTripView = () => {
       if (!selectedTrip) return;
       try {
         const response = await makeApiRequest('GET', `/trips/${selectedTrip}/`);
-				console.log(response);
+        console.warn(response);
         setTrip(response);
         setModifiedTrip(response);
         setError(null);
@@ -185,11 +178,9 @@ const SingleTripView = () => {
               sx={{ cursor: 'pointer', p: 0 }}
             />
           )}
-					{trip.visa_required && (
-						<Chip label='Visa Required' color='error' />
-					)}
+          {trip.visa_required && <Chip label="Visa Required" color="error" />}
         </Stack>
-				<Stack direction="row" alignItems="center" gap={2}>
+        <Stack direction="row" alignItems="center" gap={2}>
           <Box display="flex" alignItems="center" gap={1}>
             <AccessTime />
             <Typography>
@@ -197,10 +188,10 @@ const SingleTripView = () => {
               {format(new Date(trip.end_date), 'MMM d, yyyy')}
             </Typography>
           </Box>
-        <IconButton onClick={() => setEditing(!editing)}>
-          <Edit sx={{ fontSize: '1.2rem' }} />
-        </IconButton>
-				</Stack>
+          <IconButton onClick={() => setEditing(!editing)}>
+            <Edit sx={{ fontSize: '1.2rem' }} />
+          </IconButton>
+        </Stack>
       </Box>
     </Paper>
   );
@@ -220,7 +211,10 @@ const SingleTripView = () => {
         <DestinationsPanel destinations={trip.destinations} />
       </TabPanel>
       <TabPanel value={activeTab} index={1}>
-        <AccommodationsPanel accommodations={trip.accommodations} currency={trip.currency} />
+        <AccommodationsPanel
+          accommodations={trip.accommodations}
+          currency={trip.currency}
+        />
       </TabPanel>
       <TabPanel value={activeTab} index={2}>
         <ActivitiesPanel activities={trip.activities} currency={trip.currency} />
