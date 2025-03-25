@@ -65,10 +65,10 @@ const App = () => {
                   <Container component="main" sx={{ flexGrow: 1, py: 3 }}>
                     <Routes>
                       <Route path="/" element={<h1>Welcome to Waypoint</h1>} />
-                      <Route path="/explore" element={<Explore />} />
+                      {/* <Route path="/explore" element={<Explore />} />  focus on planning and collaboration first*/}
                       <Route path="/trips" element={<Trips />} />
                       <Route path="/trips/details" element={<SingleTripView />} />
-                      <Route path="/favorites" element={<Favorites />} />
+                      {/* <Route path="/favorites" element={<Favorites />} />  focus on planning and collaboration first*/}
                     </Routes>
                   </Container>
                 </>

@@ -15,6 +15,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@artemkarimov/mui-date-range-picker@npm:^1.0.11":
+  version: 1.0.11
+  resolution: "@artemkarimov/mui-date-range-picker@npm:1.0.11"
+  dependencies:
+    "@babel/runtime": "npm:^7.16.7"
+  peerDependencies:
+    "@babel/runtime": ^7.16.7
+    "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
+    "@mui/icons-material": ^5.0.4
+    "@mui/material": ^5.2.6
+    "@mui/system": ^5.0.6
+    date-fns: ^2.28.0
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  checksum: 10c0/2e98af8cf39ee0cb493f7dd12ea16046f73d1f228df6a97cee742c81c802e3486421979767737feaa7889d3494ae3c620bfcef705dc8875f3ca1a9c12c4c1df8
+  languageName: node
+  linkType: hard
+
 "@babel/code-frame@npm:^7.0.0, @babel/code-frame@npm:^7.26.2":
   version: 7.26.2
   resolution: "@babel/code-frame@npm:7.26.2"
@@ -240,6 +259,15 @@ __metadata:
   dependencies:
     regenerator-runtime: "npm:^0.14.0"
   checksum: 10c0/e8517131110a6ec3a7360881438b85060e49824e007f4a64b5dfa9192cf2bb5c01e84bfc109f02d822c7edb0db926928dd6b991e3ee460b483fb0fac43152d9b
+  languageName: node
+  linkType: hard
+
+"@babel/runtime@npm:^7.16.7, @babel/runtime@npm:^7.20.6":
+  version: 7.27.0
+  resolution: "@babel/runtime@npm:7.27.0"
+  dependencies:
+    regenerator-runtime: "npm:^0.14.0"
+  checksum: 10c0/35091ea9de48bd7fd26fb177693d64f4d195eb58ab2b142b893b7f3fa0f1d7c677604d36499ae0621a3703f35ba0c6a8f6c572cc8f7dc0317213841e493cf663
   languageName: node
   linkType: hard
 
@@ -1328,7 +1356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/prop-types@npm:^15.7.14":
+"@types/prop-types@npm:^15.7.14, @types/prop-types@npm:^15.7.3":
   version: 15.7.14
   resolution: "@types/prop-types@npm:15.7.14"
   checksum: 10c0/1ec775160bfab90b67a782d735952158c7e702ca4502968aa82565bd8e452c2de8601c8dfe349733073c31179116cf7340710160d3836aa8a1ef76d1532893b1
@@ -1778,6 +1806,13 @@ __metadata:
   version: 3.0.0
   resolution: "chownr@npm:3.0.0"
   checksum: 10c0/43925b87700f7e3893296c8e9c56cc58f926411cce3a6e5898136daaf08f08b9a8eb76d37d3267e707d0dcc17aed2e2ebdf5848c0c3ce95cf910a919935c1b10
+  languageName: node
+  linkType: hard
+
+"classnames@npm:^2.2.6":
+  version: 2.5.1
+  resolution: "classnames@npm:2.5.1"
+  checksum: 10c0/afff4f77e62cea2d79c39962980bf316bacb0d7c49e13a21adaadb9221e1c6b9d3cdb829d8bb1b23c406f4e740507f37e1dcf506f7e3b7113d17c5bab787aa69
   languageName: node
   linkType: hard
 
@@ -3500,6 +3535,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"material-ui-popup-state@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "material-ui-popup-state@npm:5.3.3"
+  dependencies:
+    "@babel/runtime": "npm:^7.20.6"
+    "@types/prop-types": "npm:^15.7.3"
+    classnames: "npm:^2.2.6"
+    prop-types: "npm:^15.7.2"
+  peerDependencies:
+    "@mui/material": ^5.0.0 || ^6.0.0
+    "@types/react": ^16.8.0 || ^17 || ^18 || ^19
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+  checksum: 10c0/8e2a3c48394d0465ba4707f63db5d0e8f0f5832b42b55fe8612bc6cb279771acb289b1f3e2057dcfb98c0a5722bcb03be6fe614d4d0ef579130c016b85d46cb2
+  languageName: node
+  linkType: hard
+
 "math-intrinsics@npm:^1.1.0":
   version: 1.1.0
   resolution: "math-intrinsics@npm:1.1.0"
@@ -3648,6 +3702,25 @@ __metadata:
   version: 2.1.3
   resolution: "ms@npm:2.1.3"
   checksum: 10c0/d924b57e7312b3b63ad21fc5b3dc0af5e78d61a1fc7cfb5457edaf26326bf62be5307cc87ffb6862ef1c2b33b0233cdb5d4f01c4c958cc0d660948b65a287a48
+  languageName: node
+  linkType: hard
+
+"mui-daterange-picker@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "mui-daterange-picker@npm:1.0.5"
+  dependencies:
+    "@babel/runtime": "npm:^7.16.7"
+  peerDependencies:
+    "@babel/runtime": ^7.16.7
+    "@emotion/react": ^11.7.1
+    "@emotion/styled": ^11.6.0
+    "@mui/icons-material": ^5.0.4
+    "@mui/material": ^5.2.6
+    "@mui/system": ^5.0.6
+    date-fns: ^2.28.0
+    react: ^17.0.2
+    react-dom: ^17.0.2
+  checksum: 10c0/f6a804a0f2687e8e5e8db872652e5bb7df499dcecc81cf9e08db68539410646f08629b6f17b74f925e14454f9b88ce5d7cd8bb081d57a07b6df40ef646aedb34
   languageName: node
   linkType: hard
 
@@ -3985,7 +4058,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.6.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -4908,6 +4981,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "waypoint-web@workspace:."
   dependencies:
+    "@artemkarimov/mui-date-range-picker": "npm:^1.0.11"
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
     "@eslint/eslintrc": "npm:^3.3.0"
@@ -4929,6 +5003,8 @@ __metadata:
     eslint-plugin-react-refresh: "npm:^0.4.18"
     eslint-plugin-testing-library: "npm:^7.1.1"
     globals: "npm:^15.14.0"
+    material-ui-popup-state: "npm:^5.3.3"
+    mui-daterange-picker: "npm:^1.0.5"
     notistack: "npm:^3.0.2"
     prettier: "npm:^3.5.2"
     react: "npm:^19.0.0"

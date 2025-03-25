@@ -42,7 +42,7 @@ const Login = () => {
         console.warn('new user');
       }
       await loginUser({ username, password }, dispatch);
-      navigate('/');
+      navigate('/trips');
     } catch (err) {
       setError('Invalid username or password. Please try again.');
       console.error(err);

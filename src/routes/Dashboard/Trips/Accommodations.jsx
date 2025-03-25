@@ -31,7 +31,8 @@ const AccommodationsPanel = ({ accommodations, currency }) => {
                   cursor: 'pointer',
                   backgroundColor: 'transparent'
                 }}
-              >
+                onClick={() => handleAccommodationClick('add_new')}
+							>
                 <Box display="flex" alignItems="center" justifyContent="center" gap={1}>
                   <Add />
                   Add Accommodation

@@ -27,6 +27,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
+          ["@artemkarimov/mui-date-range-picker", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.11"],\
           ["@emotion/react", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
           ["@emotion/styled", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
           ["@eslint/eslintrc", "npm:3.3.0"],\
@@ -48,6 +49,8 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:0.4.19"],\
           ["eslint-plugin-testing-library", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:7.1.1"],\
           ["globals", "npm:15.15.0"],\
+          ["material-ui-popup-state", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:5.3.3"],\
+          ["mui-daterange-picker", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.5"],\
           ["notistack", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:3.0.2"],\
           ["prettier", "npm:3.5.2"],\
           ["react", "npm:19.0.0"],\
@@ -65,6 +68,59 @@ const RAW_RUNTIME_STATE =
           ["@ampproject/remapping", "npm:2.3.0"],\
           ["@jridgewell/gen-mapping", "npm:0.3.8"],\
           ["@jridgewell/trace-mapping", "npm:0.3.25"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@artemkarimov/mui-date-range-picker", [\
+      ["npm:1.0.11", {\
+        "packageLocation": "../.yarn/berry/cache/@artemkarimov-mui-date-range-picker-npm-1.0.11-a176804e82-10c0.zip/node_modules/@artemkarimov/mui-date-range-picker/",\
+        "packageDependencies": [\
+          ["@artemkarimov/mui-date-range-picker", "npm:1.0.11"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.11", {\
+        "packageLocation": "./.yarn/__virtual__/@artemkarimov-mui-date-range-picker-virtual-ae51b6f4ce/2/.yarn/berry/cache/@artemkarimov-mui-date-range-picker-npm-1.0.11-a176804e82-10c0.zip/node_modules/@artemkarimov/mui-date-range-picker/",\
+        "packageDependencies": [\
+          ["@artemkarimov/mui-date-range-picker", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.11"],\
+          ["@babel/runtime", "npm:7.27.0"],\
+          ["@emotion/react", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
+          ["@emotion/styled", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
+          ["@mui/icons-material", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:6.4.5"],\
+          ["@mui/material", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:6.4.5"],\
+          ["@mui/system", null],\
+          ["@types/babel__runtime", null],\
+          ["@types/date-fns", null],\
+          ["@types/emotion__react", null],\
+          ["@types/emotion__styled", null],\
+          ["@types/mui__icons-material", null],\
+          ["@types/mui__material", null],\
+          ["@types/mui__system", null],\
+          ["@types/react", "npm:19.0.10"],\
+          ["@types/react-dom", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:19.0.4"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["react", "npm:19.0.0"],\
+          ["react-dom", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:19.0.0"]\
+        ],\
+        "packagePeers": [\
+          "@emotion/react",\
+          "@emotion/styled",\
+          "@mui/icons-material",\
+          "@mui/material",\
+          "@mui/system",\
+          "@types/babel__runtime",\
+          "@types/date-fns",\
+          "@types/emotion__react",\
+          "@types/emotion__styled",\
+          "@types/mui__icons-material",\
+          "@types/mui__material",\
+          "@types/mui__system",\
+          "@types/react-dom",\
+          "@types/react",\
+          "date-fns",\
+          "react-dom",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -360,6 +416,14 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../.yarn/berry/cache/@babel-runtime-npm-7.26.9-8369ff039f-10c0.zip/node_modules/@babel/runtime/",\
         "packageDependencies": [\
           ["@babel/runtime", "npm:7.26.9"],\
+          ["regenerator-runtime", "npm:0.14.1"]\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["npm:7.27.0", {\
+        "packageLocation": "../.yarn/berry/cache/@babel-runtime-npm-7.27.0-67ce9cb54f-10c0.zip/node_modules/@babel/runtime/",\
+        "packageDependencies": [\
+          ["@babel/runtime", "npm:7.27.0"],\
           ["regenerator-runtime", "npm:0.14.1"]\
         ],\
         "linkType": "HARD"\
@@ -2310,6 +2374,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../.yarn/berry/cache/chownr-npm-3.0.0-5275e85d25-10c0.zip/node_modules/chownr/",\
         "packageDependencies": [\
           ["chownr", "npm:3.0.0"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["classnames", [\
+      ["npm:2.5.1", {\
+        "packageLocation": "../.yarn/berry/cache/classnames-npm-2.5.1-c7273f3423-10c0.zip/node_modules/classnames/",\
+        "packageDependencies": [\
+          ["classnames", "npm:2.5.1"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -4303,6 +4376,36 @@ const RAW_RUNTIME_STATE =
         "linkType": "HARD"\
       }]\
     ]],\
+    ["material-ui-popup-state", [\
+      ["npm:5.3.3", {\
+        "packageLocation": "../.yarn/berry/cache/material-ui-popup-state-npm-5.3.3-fb108d54a3-10c0.zip/node_modules/material-ui-popup-state/",\
+        "packageDependencies": [\
+          ["material-ui-popup-state", "npm:5.3.3"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:5.3.3", {\
+        "packageLocation": "./.yarn/__virtual__/material-ui-popup-state-virtual-7c99108244/2/.yarn/berry/cache/material-ui-popup-state-npm-5.3.3-fb108d54a3-10c0.zip/node_modules/material-ui-popup-state/",\
+        "packageDependencies": [\
+          ["material-ui-popup-state", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:5.3.3"],\
+          ["@babel/runtime", "npm:7.27.0"],\
+          ["@mui/material", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:6.4.5"],\
+          ["@types/mui__material", null],\
+          ["@types/prop-types", "npm:15.7.14"],\
+          ["@types/react", "npm:19.0.10"],\
+          ["classnames", "npm:2.5.1"],\
+          ["prop-types", "npm:15.8.1"],\
+          ["react", "npm:19.0.0"]\
+        ],\
+        "packagePeers": [\
+          "@mui/material",\
+          "@types/mui__material",\
+          "@types/react",\
+          "react"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
     ["math-intrinsics", [\
       ["npm:1.1.0", {\
         "packageLocation": "../.yarn/berry/cache/math-intrinsics-npm-1.1.0-9204d80e7d-10c0.zip/node_modules/math-intrinsics/",\
@@ -4464,6 +4567,59 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../.yarn/berry/cache/ms-npm-2.1.3-81ff3cfac1-10c0.zip/node_modules/ms/",\
         "packageDependencies": [\
           ["ms", "npm:2.1.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["mui-daterange-picker", [\
+      ["npm:1.0.5", {\
+        "packageLocation": "../.yarn/berry/cache/mui-daterange-picker-npm-1.0.5-dcd754651b-10c0.zip/node_modules/mui-daterange-picker/",\
+        "packageDependencies": [\
+          ["mui-daterange-picker", "npm:1.0.5"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.5", {\
+        "packageLocation": "./.yarn/__virtual__/mui-daterange-picker-virtual-6eda0aa7a9/2/.yarn/berry/cache/mui-daterange-picker-npm-1.0.5-dcd754651b-10c0.zip/node_modules/mui-daterange-picker/",\
+        "packageDependencies": [\
+          ["mui-daterange-picker", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.5"],\
+          ["@babel/runtime", "npm:7.27.0"],\
+          ["@emotion/react", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
+          ["@emotion/styled", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
+          ["@mui/icons-material", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:6.4.5"],\
+          ["@mui/material", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:6.4.5"],\
+          ["@mui/system", null],\
+          ["@types/babel__runtime", null],\
+          ["@types/date-fns", null],\
+          ["@types/emotion__react", null],\
+          ["@types/emotion__styled", null],\
+          ["@types/mui__icons-material", null],\
+          ["@types/mui__material", null],\
+          ["@types/mui__system", null],\
+          ["@types/react", "npm:19.0.10"],\
+          ["@types/react-dom", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:19.0.4"],\
+          ["date-fns", "npm:4.1.0"],\
+          ["react", "npm:19.0.0"],\
+          ["react-dom", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:19.0.0"]\
+        ],\
+        "packagePeers": [\
+          "@emotion/react",\
+          "@emotion/styled",\
+          "@mui/icons-material",\
+          "@mui/material",\
+          "@mui/system",\
+          "@types/babel__runtime",\
+          "@types/date-fns",\
+          "@types/emotion__react",\
+          "@types/emotion__styled",\
+          "@types/mui__icons-material",\
+          "@types/mui__material",\
+          "@types/mui__system",\
+          "@types/react-dom",\
+          "@types/react",\
+          "date-fns",\
+          "react-dom",\
+          "react"\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5885,6 +6041,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["waypoint-web", "workspace:."],\
+          ["@artemkarimov/mui-date-range-picker", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.11"],\
           ["@emotion/react", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
           ["@emotion/styled", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:11.14.0"],\
           ["@eslint/eslintrc", "npm:3.3.0"],\
@@ -5906,6 +6063,8 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-refresh", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:0.4.19"],\
           ["eslint-plugin-testing-library", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:7.1.1"],\
           ["globals", "npm:15.15.0"],\
+          ["material-ui-popup-state", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:5.3.3"],\
+          ["mui-daterange-picker", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:1.0.5"],\
           ["notistack", "virtual:a2dcef94ddca558c75017afb72a01877c833bdebd7ee8b9230e11339325577fc3d86291f11180d53c7b57cbf341a65d8fdb7b151dac5601aee732456d9ac9a7b#npm:3.0.2"],\
           ["prettier", "npm:3.5.2"],\
           ["react", "npm:19.0.0"],\

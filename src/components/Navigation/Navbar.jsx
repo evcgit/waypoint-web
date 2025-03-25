@@ -11,9 +11,8 @@ import {
   useTheme
 } from '@mui/material';
 import {
-  ExploreOutlined,
   FlightTakeoffOutlined,
-  FavoriteBorderOutlined,
+  People,
   AccountCircleOutlined
 } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
@@ -27,10 +26,11 @@ const Navbar = () => {
   const [selectedPage, setSelectedPage] = useState(null);
   const navigate = useNavigate();
 
+  // { name: 'Explore', icon: <ExploreOutlined />, path: '/explore' },
+  // { name: 'Favorites', icon: <FavoriteBorderOutlined />, path: '/favorites' },
   const pages = [
-    { name: 'Explore', icon: <ExploreOutlined />, path: '/explore' },
     { name: 'Trips', icon: <FlightTakeoffOutlined />, path: '/trips' },
-    { name: 'Favorites', icon: <FavoriteBorderOutlined />, path: '/favorites' },
+    { name: 'Friends', icon: <People />, path: '/friends' },
     {
       name: 'Profile',
       icon: <AccountCircleOutlined />,
