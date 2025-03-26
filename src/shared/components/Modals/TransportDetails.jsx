@@ -10,62 +10,67 @@ import Modal from '../../../components/Modal';
 import DateRangeSelector from '../DateRangeSelector';
 import IncrementSelect from '../../../components/IncrementSelect';
 
-const AccommodationDetails = ({ open, onClose, accommodation }) => {
+const TransportDetails = ({ open, onClose, trip, transport }) => {
 	const [startDate, setStartDate] = useState(
-		accommodation ? new Date(accommodation.checkin_date) : null
+		transport ? new Date(transport.start_time) : null
 	);
 	const [endDate, setEndDate] = useState(
-		accommodation ? new Date(accommodation.checkout_date) : null
+		transport ? new Date(transport.end_time) : null
 	);
 
 	const [formData, setFormData] = useState({
 		name: '',
-		checkin_date: null,
-		checkout_date: null,
+		start_time: null,
+		end_time: null,
+		from_destination: '',
+		to_destination: '',
 		cost: 0,
 		notes: ''
 	});
 
 	useEffect(() => {
-		if (accommodation) {
+		if (transport) {
 			setFormData({
-				name: accommodation.name,
-				checkin_date: new Date(accommodation.checkin_date),
-				checkout_date: new Date(accommodation.checkout_date),
-				cost: accommodation.cost,
-				notes: accommodation.notes || ''
+				name: transport.name,
+				start_time: new Date(transport.start_time),
+				end_time: new Date(transport.end_time),
+				from_destination: trip.destinations.find(d => d.id === transport.from_destination).city,
+				to_destination: trip.destinations.find(d => d.id === transport.to_destination).city,
+				cost: transport.cost,
+				notes: transport.notes || ''
 			});
-			setStartDate(new Date(accommodation.checkin_date));
-			setEndDate(new Date(accommodation.checkout_date));
+			setStartDate(new Date(transport.start_time));
+			setEndDate(new Date(transport.end_time));
 		} else {
 			setFormData({
 				name: '',
-				checkin_date: null,
-				checkout_date: null,
+				start_time: null,
+				end_time: null,
+				from_destination: '',
+				to_destination: '',
 				cost: 0,
 				notes: ''
 			});
 			setStartDate(null);
 			setEndDate(null);
 		}
-	}, [accommodation]);
+	}, [transport]);
 
 	useEffect(() => {
 		setFormData(prev => ({
 			...prev,
-			checkin_date: startDate,
-			checkout_date: endDate
+			start_time: startDate,
+			end_time: endDate
 		}));
 	}, [startDate, endDate]);
 
 	const handleSubmit = async e => {
 		e.preventDefault();
-
 		try {
 			console.log(formData);
 			onClose();
 		} catch (error) {
-			console.error('Error saving accommodation:', error);
+			console.error('Error saving transport:', error);
 		}
 	};
 
@@ -76,17 +81,16 @@ const AccommodationDetails = ({ open, onClose, accommodation }) => {
 		}
 	};
 
-
 	return (
 		<Modal
 			open={open}
 			onModalClose={onClose}
-			modalTitle={accommodation ? `Edit ${formData.name}` : 'Add Accommodation'}
+			modalTitle={transport ? `Edit ${formData.name}` : 'Add Transportation'}
 			useDialogActions
 			dialogActionButton={
 				<Box display="flex" gap={2} justifyContent="flex-end">
 					<Button variant="contained" onClick={handleSubmit}>
-						{accommodation ? 'Save' : 'Create'}
+						{transport ? 'Save' : 'Create'}
 					</Button>
 				</Box>
 			}
@@ -98,6 +102,20 @@ const AccommodationDetails = ({ open, onClose, accommodation }) => {
 						label="Name"
 						value={formData.name}
 						onChange={e => setFormData({ ...formData, name: e.target.value })}
+						required
+					/>
+					<TextField
+						fullWidth
+						label="From Destination"
+						value={formData.from_destination}
+						onChange={e => setFormData({ ...formData, from_destination: e.target.value })}
+						required
+					/>
+					<TextField
+						fullWidth
+						label="To Destination"
+						value={formData.to_destination}
+						onChange={e => setFormData({ ...formData, to_destination: e.target.value })}
 						required
 					/>
 					<FormControl fullWidth>
@@ -139,4 +157,4 @@ const AccommodationDetails = ({ open, onClose, accommodation }) => {
 	);
 };
 
-export default AccommodationDetails;
+export default TransportDetails;

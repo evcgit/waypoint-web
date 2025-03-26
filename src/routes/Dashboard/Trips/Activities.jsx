@@ -1,11 +1,23 @@
+import { useState } from 'react';
 import { Grid, Card, Box, Typography } from '@mui/material';
 import { Event, Add } from '@mui/icons-material';
 import { format } from 'date-fns';
+import ActivityDetails from '../../../shared/components/Modals/ActivityDetails';
 
-const ActivitiesPanel = ({ activities, currency }) => (
-  <Grid container spacing={3}>
-    {[...(activities || []), 'add_new'].map(activity => (
-      <Grid item xs={12} md={6} key={activity === 'add_new' ? 'add_new' : activity.id}>
+const ActivitiesPanel = ({ activities, currency }) => {
+	const [open, setOpen] = useState(false);
+	const [selectedActivity, setSelectedActivity] = useState(null);
+
+	const handleActivityClick = activity => {
+		setSelectedActivity(activity);
+		setOpen(true);
+	};
+
+	return (
+		<>
+			<Grid container spacing={3}>
+				{[...(activities || []), 'add_new'].map(activity => (
+					<Grid item xs={12} md={6} key={activity === 'add_new' ? 'add_new' : activity.id}>
         {activity === 'add_new' ? (
           <Card
             sx={{
@@ -21,7 +33,7 @@ const ActivitiesPanel = ({ activities, currency }) => (
             </Box>
           </Card>
         ) : (
-          <Card sx={{ p: 2 }}>
+          <Card sx={{ p: 2, cursor: 'pointer' }} onClick={() => handleActivityClick(activity)}>
             <Box display="flex" alignItems="center" gap={1} mb={2}>
               <Event />
               <Typography variant="h6">{activity.name}</Typography>
@@ -38,6 +50,10 @@ const ActivitiesPanel = ({ activities, currency }) => (
       </Grid>
     ))}
   </Grid>
-);
+
+			<ActivityDetails open={open} onClose={() => setOpen(false)} activity={selectedActivity} />
+		</>
+	);
+};
 
 export default ActivitiesPanel;

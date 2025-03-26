@@ -4,68 +4,66 @@ import {
 	TextField,
 	Button,
 	Stack,
-	FormControl,
+	FormControl
 } from '@mui/material';
 import Modal from '../../../components/Modal';
 import DateRangeSelector from '../DateRangeSelector';
 import IncrementSelect from '../../../components/IncrementSelect';
 
-const AccommodationDetails = ({ open, onClose, accommodation }) => {
+const ActivityDetails = ({ open, onClose, activity }) => {
 	const [startDate, setStartDate] = useState(
-		accommodation ? new Date(accommodation.checkin_date) : null
+		activity ? new Date(activity.start_time) : null
 	);
 	const [endDate, setEndDate] = useState(
-		accommodation ? new Date(accommodation.checkout_date) : null
+		activity ? new Date(activity.end_time) : null
 	);
 
 	const [formData, setFormData] = useState({
 		name: '',
-		checkin_date: null,
-		checkout_date: null,
+		start_time: null,
+		end_time: null,
 		cost: 0,
 		notes: ''
 	});
 
 	useEffect(() => {
-		if (accommodation) {
+		if (activity) {
 			setFormData({
-				name: accommodation.name,
-				checkin_date: new Date(accommodation.checkin_date),
-				checkout_date: new Date(accommodation.checkout_date),
-				cost: accommodation.cost,
-				notes: accommodation.notes || ''
+				name: activity.name,
+				start_time: new Date(activity.start_time),
+				end_time: new Date(activity.end_time),
+				cost: activity.cost,
+				notes: activity.notes || ''
 			});
-			setStartDate(new Date(accommodation.checkin_date));
-			setEndDate(new Date(accommodation.checkout_date));
+			setStartDate(new Date(activity.start_time));
+			setEndDate(new Date(activity.end_time));
 		} else {
 			setFormData({
 				name: '',
-				checkin_date: null,
-				checkout_date: null,
+				start_time: null,
+				end_time: null,
 				cost: 0,
 				notes: ''
 			});
 			setStartDate(null);
 			setEndDate(null);
 		}
-	}, [accommodation]);
+	}, [activity]);
 
 	useEffect(() => {
 		setFormData(prev => ({
 			...prev,
-			checkin_date: startDate,
-			checkout_date: endDate
+			start_time: startDate,
+			end_time: endDate
 		}));
 	}, [startDate, endDate]);
 
 	const handleSubmit = async e => {
-		e.preventDefault();
-
 		try {
-			console.log(formData);
+			console.warn(formData);
 			onClose();
 		} catch (error) {
-			console.error('Error saving accommodation:', error);
+			console.error('Error saving activity:', error);
 		}
 	};
 
@@ -76,17 +74,16 @@ const AccommodationDetails = ({ open, onClose, accommodation }) => {
 		}
 	};
 
-
 	return (
 		<Modal
 			open={open}
 			onModalClose={onClose}
-			modalTitle={accommodation ? `Edit ${formData.name}` : 'Add Accommodation'}
+			modalTitle={activity ? `Edit ${formData.name}` : 'Add Activity'}
 			useDialogActions
 			dialogActionButton={
 				<Box display="flex" gap={2} justifyContent="flex-end">
 					<Button variant="contained" onClick={handleSubmit}>
-						{accommodation ? 'Save' : 'Create'}
+						{activity ? 'Save' : 'Create'}
 					</Button>
 				</Box>
 			}
@@ -139,4 +136,4 @@ const AccommodationDetails = ({ open, onClose, accommodation }) => {
 	);
 };
 
-export default AccommodationDetails;
+export default ActivityDetails;

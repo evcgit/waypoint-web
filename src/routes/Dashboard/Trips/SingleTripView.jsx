@@ -216,7 +216,7 @@ const SingleTripView = () => {
         <ActivitiesPanel activities={trip.activities} currency={trip.currency} />
       </TabPanel>
       <TabPanel value={activeTab} index={3}>
-        <TransportPanel transports={trip.transports} currency={trip.currency} />
+        <TransportPanel trip={trip} />
       </TabPanel>
     </Box>
   );
